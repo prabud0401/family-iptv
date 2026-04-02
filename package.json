@@ -1,0 +1,27 @@
+{
+  "name": "family-iptv",
+  "version": "1.0.0",
+  "description": "Family IPTV app with curated channel profiles",
+  "scripts": {
+    "start": "node dev-server.js",
+    "build:www": "node -e \"const fs=require('fs');const cp=(s,d)=>{if(fs.statSync(s).isDirectory()){fs.mkdirSync(d,{recursive:true});fs.readdirSync(s).forEach(f=>cp(s+'/'+f,d+'/'+f))}else{fs.copyFileSync(s,d)}};['index.html'].forEach(f=>fs.copyFileSync(f,'www/'+f));['css','js','assets'].forEach(d=>cp(d,'www/'+d))\"",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android",
+    "build:apk": "npm run build:www && npm run cap:sync"
+  },
+  "keywords": [
+    "iptv",
+    "android-tv"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^8.3.0",
+    "@capacitor/cli": "^8.3.0",
+    "@capacitor/core": "^8.3.0",
+    "cheerio": "^1.2.0",
+    "crypto-js": "^4.2.0",
+    "esbuild": "^0.27.4",
+    "lodash": "^4.17.23",
+    "slugify": "^1.6.8"
+  }
+}

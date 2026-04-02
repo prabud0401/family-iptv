@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Family IPTV</string>
+    <string name="title_activity_main">Family IPTV</string>
+    <string name="package_name">com.family.iptv</string>
+    <string name="custom_url_scheme">com.family.iptv</string>
+</resources>

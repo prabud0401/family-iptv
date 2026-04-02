@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+android/app/build/
+android/.gradle/
+android/build/
+android/capacitor-cordova-android-plugins/build/
+android/capacitor-android/build/
+android/.idea/
+
+# APK files
+*.apk
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp/debug files
+cookies.txt
+*.log
+
+# Resolver (unused)
+resolver/
+
+# Scraper (deprecated)
+scraper-entry.js
+scraper-bundle.js
+_test_scraper.js
+stream-resolver.js

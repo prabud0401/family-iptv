@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family IPTV</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
+</head>
+<body>
+
+  <!-- ── Main Browse Screen ──────────────── -->
+  <div id="home-screen" class="screen active">
+    <nav class="top-nav">
+      <span class="nav-brand">Family IPTV</span>
+      <div class="nav-tabs" id="nav-tabs"></div>
+      <button id="search-toggle-btn" class="nav-search-btn" title="Search">&#128269;</button>
+    </nav>
+
+    <div id="hero-banner" class="hero-banner">
+      <img id="hero-backdrop" class="hero-backdrop" src="" alt="">
+      <div class="hero-gradient"></div>
+      <div class="hero-content">
+        <h1 id="hero-title"></h1>
+        <div class="hero-meta" id="hero-meta"></div>
+        <p class="hero-desc" id="hero-desc"></p>
+        <button class="hero-play-btn" id="hero-play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          Play Now
+        </button>
+      </div>
+    </div>
+
+    <div id="browse-loading" class="loading" style="display:flex">
+      <div class="spinner"></div>
+      <p>Loading channels &amp; movies&hellip;</p>
+    </div>
+    <div id="content-sections" class="content-sections"></div>
+  </div>
+
+  <!-- ── Search Overlay (full-screen spotlight) ── -->
+  <div id="search-sidebar" class="search-overlay">
+    <button id="search-close-btn" class="search-close-float">&times;</button>
+    <div class="search-overlay-inner">
+      <input type="text" id="search-input" class="search-big-input" placeholder="Search channels, movies, shows&hellip;" autocomplete="off">
+      <div id="search-results" class="search-results"></div>
+    </div>
+  </div>
+
+  <!-- ── Movie/Series Detail Screen ──────── -->
+  <div id="detail-screen" class="screen">
+    <div class="detail-header">
+      <button id="detail-back-btn" class="back-btn">&larr; Back</button>
+      <h2 id="detail-title">Details</h2>
+    </div>
+    <div id="detail-content" class="detail-content"></div>
+    <div id="detail-loading" class="loading" style="display:none">
+      <div class="spinner"></div>
+      <p>Loading details&hellip;</p>
+    </div>
+  </div>
+
+  <!-- ── Player Screen ──────────────────── -->
+  <div id="player-screen" class="screen">
+    <div class="player-container">
+      <video id="video-player" autoplay playsinline></video>
+      <iframe id="stream-iframe" class="stream-iframe" style="display:none"
+              allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"
+              sandbox="allow-scripts allow-same-origin allow-forms"
+              frameborder="0"></iframe>
+
+      <div class="player-overlay" id="player-overlay">
+        <div class="overlay-top">
+          <button id="player-back-btn" class="player-back-btn">&larr;</button>
+          <div class="player-info-top">
+            <img id="player-logo" class="player-channel-logo" src="" alt="" onerror="this.style.display='none'">
+            <div>
+              <h2 id="player-channel-name"></h2>
+              <p id="player-channel-category"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="overlay-bottom">
+          <div class="player-controls">
+            <button id="prev-btn" class="control-btn" title="Previous">&#9198; Prev</button>
+            <button id="play-pause-btn" class="control-btn ctrl-main" title="Play/Pause">&#9208;</button>
+            <button id="next-btn" class="control-btn" title="Next">Next &#9197;</button>
+            <span class="ctrl-divider"></span>
+            <button id="fav-btn" class="control-btn" title="Favorite">&#9825;</button>
+            <button id="chlist-btn" class="control-btn" title="Channels">&#9776;</button>
+            <button id="settings-btn" class="control-btn" title="Settings">&#9881;</button>
+            <button id="pip-btn" class="control-btn" title="PiP">PiP</button>
+            <button id="fullscreen-btn" class="control-btn" title="Fullscreen">&#x26F6;</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="settings-panel" class="settings-panel">
+        <div class="settings-header">
+          <h3>Settings</h3>
+          <button id="settings-close-btn" class="settings-close">&times;</button>
+        </div>
+        <div class="settings-body">
+          <div class="setting-group" id="audio-group">
+            <label class="setting-label">Audio Track</label>
+            <div id="audio-options" class="setting-options"></div>
+          </div>
+          <div class="setting-group" id="quality-group">
+            <label class="setting-label">Quality</label>
+            <div id="quality-options" class="setting-options"></div>
+          </div>
+          <div class="setting-group" id="subtitle-group">
+            <label class="setting-label">Subtitles</label>
+            <div id="subtitle-options" class="setting-options"></div>
+          </div>
+          <div class="setting-group">
+            <label class="setting-label">Playback Speed</label>
+            <div id="speed-options" class="setting-options">
+              <button class="opt-btn" data-speed="0.25">0.25x</button>
+              <button class="opt-btn" data-speed="0.5">0.5x</button>
+              <button class="opt-btn" data-speed="0.75">0.75x</button>
+              <button class="opt-btn active" data-speed="1">1x</button>
+              <button class="opt-btn" data-speed="1.25">1.25x</button>
+              <button class="opt-btn" data-speed="1.5">1.5x</button>
+              <button class="opt-btn" data-speed="2">2x</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label class="setting-label">Aspect Ratio</label>
+            <div id="aspect-options" class="setting-options">
+              <button class="opt-btn active" data-aspect="fit">Fit</button>
+              <button class="opt-btn" data-aspect="fill">Fill</button>
+              <button class="opt-btn" data-aspect="stretch">Stretch</button>
+              <button class="opt-btn" data-aspect="16:9">16:9</button>
+              <button class="opt-btn" data-aspect="4:3">4:3</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label class="setting-label">Sleep Timer</label>
+            <div id="sleep-options" class="setting-options">
+              <button class="opt-btn active" data-sleep="0">Off</button>
+              <button class="opt-btn" data-sleep="15">15 min</button>
+              <button class="opt-btn" data-sleep="30">30 min</button>
+              <button class="opt-btn" data-sleep="60">1 hr</button>
+              <button class="opt-btn" data-sleep="120">2 hr</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="channel-sidebar" class="channel-sidebar">
+        <div class="sidebar-header">
+          <h3>Channel List</h3>
+        </div>
+        <div id="sidebar-channels" class="sidebar-channels"></div>
+      </div>
+
+      <div id="channel-banner" class="channel-banner">
+        <div class="banner-number" id="banner-number"></div>
+        <div class="banner-details">
+          <img id="banner-logo" class="banner-logo" src="" alt="" onerror="this.style.display='none'">
+          <div>
+            <div class="banner-name" id="banner-name"></div>
+            <div class="banner-cat" id="banner-cat"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="player-error" class="player-error" style="display:none">
+        <p>Stream unavailable. Try another channel.</p>
+        <button id="error-next-btn" class="control-btn">Try Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/favorites.js"></script>
+  <script src="js/parser.js"></script>
+  <script src="js/profiles.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/newtv.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
